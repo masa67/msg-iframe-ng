@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Case X-XX</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    This page is loaded via an iFrame and sends a message to parent.
+    <script>
+        parent.postMessage({
+            msg: 'Hello World!'
+        },
+        'http://localhost:8080/test4/index.html')
+    </script>
+</body>
