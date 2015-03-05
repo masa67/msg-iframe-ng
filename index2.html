@@ -5,13 +5,28 @@
     <title>Case X-XX</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+        }
+        .video-block {
+            max-width: 100%;
+            overflow: hidden;
+            width: 300px;
+        }
+    </style>
 </head>
-<body>
-    This page is loaded via an iFrame and sends a message to parent.
+<body onresize="sendDim()">
+    <div id="video-block" class="video-block">
+        This content is another page loaded via an iFrame.
+    </div>
     <script>
-        parent.postMessage({
-            msg: 'Hello World!'
-        },
-        'http://localhost:8080/test4/index.html')
+        function sendDim() {
+            parent.postMessage({
+                width: document.getElementById('video-block').offsetWidth,
+                height: document.getElementById('video-block').offsetHeight
+                },
+                'http://localhost:8080/test4/index.html');
+        }
     </script>
 </body>

@@ -4,5 +4,5 @@
 
     /*global angular */
     angular
-        .module('demoApp', ['ngRoute', 'MainPage']);
+        .module('demoApp', ['ngRoute', 'appRoutes', 'MainPage']);
 }());
