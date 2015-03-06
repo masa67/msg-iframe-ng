@@ -26,16 +26,23 @@
             return {
                 link: function (scope, elem, attrs) {
                     srcHost = getHost(scope.url);
+
+                    scope.$on('msg', function (event, args) {
+                        // '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
+                        elem.find('.video-block-inner').css('width', (args.width + 8) + 'px');
+                        elem.find('.video-block-inner').css('height', (args.height + 4 + 8) + 'px');
+                        elem.find('.video-block-iframe').attr('height', args.height);
+                    });
                 },
                 restrict: 'E',
                 scope: {
                     url: '='
                 },
                 template:
-                    '<div id="video-block-outer">' +
-                        '<div id="video-block-inner" class="video-block-inner">' +
+                    '<div class="video-block-outer">' +
+                        '<div class="video-block-inner">' +
                             '<iframe ' +
-                                'id="video-block-iframe" class="video-block-iframe" scrolling="no" frameborder="0"' +
+                                'class="video-block-iframe" scrolling="no" frameborder="0"' +
                                 'src="{{url}}"></iframe>' +
                         '</div>' +
                     '</div>'
