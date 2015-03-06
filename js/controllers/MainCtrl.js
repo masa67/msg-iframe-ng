@@ -2,12 +2,10 @@
 (function () {
     'use strict';
 
-    /*global angular, Modernizr */
+    /*global angular, Modernizr, document, $ */
     angular
         .module('MainPage', [])
         .controller('MainController', [ '$scope', function ($scope) {
-
-            /*global document, $ */
 
             function setIframeWidth() {
                 var w = document.getElementById('video-block-outer').offsetWidth;
@@ -45,5 +43,4 @@
             });
 
         }]);
-
 }());
