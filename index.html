@@ -43,19 +43,5 @@
     <script src="js/directives/AudioVideoFrame.js"></script>
     <script src="js/appRoutes.js"></script>
     <script src="js/app.js"></script>
-    <script>
-        function listener(event){
-            //if (event.origin !== "http://localhost:63342/" ) {
-            //    return;
-            //}
-            angular.element($('*[ng-app]')).scope().$broadcast('msg', event.data);
-        }
-
-        if (window.addEventListener){
-            addEventListener("message", listener, false)
-        } else {
-            attachEvent("onmessage", listener)
-        }
-    </script>
 </body>
 </html>

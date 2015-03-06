@@ -2,10 +2,33 @@
 (function () {
     'use strict';
 
-    /*global angular */
+    /*global angular, window, $, addEventListener, attachEvent */
     angular
         .module('AudioVideoFrame', [])
-        .directive('audioVideoFrame', function () {
+        .directive('audioVideoFrame', ['$window', function ($window) {
+
+            /*
+            function listener(event) {
+                //if (event.origin !== "http://localhost:63342/" ) {
+                //    return;
+                //}
+                angular.element($('*[ng-app]')).scope().$broadcast('msg', event.data);
+            }
+
+            if (window.addEventListener) {
+                addEventListener("message", listener, false);
+            } else {
+                attachEvent("onmessage", listener);
+            }
+            */
+
+            angular.element($window).on('message', function(e) {
+                //if (event.origin !== "http://localhost:63342/" ) {
+                //    return;
+                //}
+                angular.element($('*[ng-app]')).scope().$broadcast('msg', event.data);
+            });
+
             return {
                 restrict: 'E',
                 scope: {
@@ -19,5 +42,5 @@
                         '</div>' +
                     '</div>'
             };
-        });
+        }]);
 }());
