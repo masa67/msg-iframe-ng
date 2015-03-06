@@ -1,6 +1,23 @@
 <div>
     <p>This demo shows how an iFrame can communicate the ideal dimensions for displaying its contents.</p>
     <p>The demo uses browser internal messages.</p>
+    <form>
+        <label>Select sources</label>
+        <div class="form-group">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="sources" value="both" ng-model="iframeCfg.blocks" ng-change="clickConfig()">
+                    Both Audio And Video
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="sources" value="audio-only" ng-model="iframeCfg.blocks" ng-change="clickConfig()">
+                    Audio only
+                </label>
+            </div>
+        </div>
+    </form>
     <div class="row">
         <style>
             .video-block-inner {
@@ -9,14 +26,17 @@
                 overflow: hidden;
                 padding: 4px;
             }
+            .video-block-iframe {
+                overflow: hidden;
+            }
         </style>
         <div class="col-xs-2">
         </div>
         <div class="col-xs-8">
             <div id="video-block-outer">
                 <div id="video-block-inner" class="video-block-inner">
-                    <iframe id="video-block-iframe" frameborder="0"
-                            src="http://localhost:8080/test4/index2.html"></iframe>
+                    <iframe id="video-block-iframe" class="video-block-iframe" scrolling="no" frameborder="0"
+                            seamless="seamless" src="http://localhost:63342/msg-iframe-ng/index2.html"></iframe>
                 </div>
             </div>
         </div>
