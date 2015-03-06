@@ -7,6 +7,8 @@
         .module('MainPage', [])
         .controller('MainController', [ '$scope', function ($scope) {
 
+            /*global document, $ */
+
             function setIframeWidth() {
                 var w = document.getElementById('video-block-outer').offsetWidth;
                 document.getElementById('video-block-iframe').width = w;
@@ -20,7 +22,7 @@
 
             $scope.clickConfig = function () {
                 sendConfigToIframe();
-            }
+            };
 
             setIframeWidth();
             $(window).resize('resize.doResize', function () {
