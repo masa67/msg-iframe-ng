@@ -68,6 +68,7 @@
         function sendDim() {
             var h = document.getElementById('audio-video-block').offsetHeight + 8;
             parent.postMessage({
+                source: 'directive',
                 width: document.getElementById('audio-video-block').offsetWidth + 8,
                 height: h // document.getElementById('audio-video-block').offsetHeight + 8
                 },

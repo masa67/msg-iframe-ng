@@ -27,11 +27,29 @@
                 link: function (scope, elem, attrs) {
                     srcHost = getHost(scope.url);
 
+                    function setIframeWidth() {
+                        var w = elem.find('.av-block-outer').width();
+                        elem.find('.av-block-iframe').attr('width', w);
+                    }
+
+                    setIframeWidth();
+                    $(window).resize('resize.doResize', function () {
+                        setIframeWidth();
+                    });
+
+                    scope.$on('$destroy', function () {
+                        $(window).off('resize.doResize');
+                    });
+
                     scope.$on('msg', function (event, args) {
+                        if (args.source !== 'directive') {
+                            return;
+                        }
+
                         // '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
-                        elem.find('.video-block-inner').css('width', (args.width + 8) + 'px');
-                        elem.find('.video-block-inner').css('height', (args.height + 4 + 8) + 'px');
-                        elem.find('.video-block-iframe').attr('height', args.height);
+                        elem.find('.av-block-inner').css('width', (args.width + 8) + 'px');
+                        elem.find('.av-block-inner').css('height', (args.height + 4 + 8) + 'px');
+                        elem.find('.av-block-iframe').attr('height', args.height);
                     });
                 },
                 restrict: 'E',
@@ -39,10 +57,10 @@
                     url: '='
                 },
                 template:
-                    '<div class="video-block-outer">' +
-                        '<div class="video-block-inner">' +
+                    '<div class="av-block-outer">' +
+                        '<div class="av-block-inner">' +
                             '<iframe ' +
-                                'class="video-block-iframe" scrolling="no" frameborder="0"' +
+                                'class="av-block-iframe" scrolling="no" frameborder="0"' +
                                 'src="{{url}}"></iframe>' +
                         '</div>' +
                     '</div>'

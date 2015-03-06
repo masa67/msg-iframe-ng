@@ -14,8 +14,7 @@
 
             function sendConfigToIframe() {
                 var w = document.getElementById('video-block-iframe').contentWindow;
-
-                w.postMessage($scope.iframeCfg, 'http://localhost:63342/msg-iframe-ng/index2.html');
+                w.postMessage($scope.iframeCfg, 'http://localhost:63342/msg-iframe-ng/index2_nodir.html');
             }
 
             $scope.clickConfig = function () {
@@ -32,6 +31,10 @@
             };
 
             $scope.$on('msg', function (event, args) {
+                if (args.source !== 'no-directive') {
+                    return;
+                }
+
                 // '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
                 document.getElementById('video-block-inner').style.width = (args.width + 8) + 'px';
                 document.getElementById('video-block-inner').style.height = (args.height + 4 + 8) + 'px';

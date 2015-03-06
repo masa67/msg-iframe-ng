@@ -20,11 +20,20 @@
     </form>
     <div class="row">
         <style>
+            .av-block-inner {
+                border: 2px solid #888;
+                margin: 20px auto;
+                overflow: hidden;
+                padding: 4px;
+            }
             .video-block-inner {
                 border: 2px solid #888;
                 margin: 20px auto;
                 overflow: hidden;
                 padding: 4px;
+            }
+            .av-block-iframe {
+                overflow: hidden;
             }
             .video-block-iframe {
                 overflow: hidden;
@@ -36,15 +45,19 @@
             <div id="video-block-outer">
                 <div id="video-block-inner" class="video-block-inner">
                     <iframe id="video-block-iframe" class="video-block-iframe" scrolling="no" frameborder="0"
-                            src="http://localhost:63342/msg-iframe-ng/index2.html"></iframe>
+                            src="http://localhost:63342/msg-iframe-ng/index2_nodir.html"></iframe>
                 </div>
             </div>
         </div>
         <div class="col-xs-2">
         </div>
     </div>
-    <div>
-        Testing Angular directives:
-        <audio-video-frame url="'http://localhost:63342/msg-iframe-ng/index2.html'"></audio-video-frame>
+    <div>The same with an Angular directive:</div>
+    <div class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">
+            <audio-video-frame url="'http://localhost:63342/msg-iframe-ng/index2.html'"></audio-video-frame>
+        </div>
+        <div class="col-xs-2"></div>
     </div>
 </div>
