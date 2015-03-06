@@ -15,12 +15,12 @@
                 return l.host;
             }
 
-            angular.element($window).on('message', function () {
-                if (srcHost !== getHost(event.origin)) {
-                    console.log('mismatch: host = ' + srcHost + ', getHost = ' + getHost(event.origin));
+            $(window).on('message', function (e) {
+                if (srcHost !== getHost(e.originalEvent.origin)) {
+                    console.log('mismatch: host = ' + srcHost + ', getHost = ' + getHost(e.originalEvent.origin));
                     return;
                 }
-                angular.element($('*[ng-app]')).scope().$broadcast('msg', event.data);
+                angular.element($('*[ng-app]')).scope().$broadcast('msg', e.originalEvent.data);
             });
 
             return {
@@ -52,11 +52,11 @@
                         elem.find('.av-block-iframe').attr('height', args.height);
                     });
 
-                    scope.$watch(function (scope) {
-                        return scope.iframeCfg;
-                    }, function (newValue, oldValue) {
+                    scope.$watch(function () {
+                        return scope.iframeCfg.blocks;
+                    }, function () {
                         var w = elem.find('.av-block-iframe')[0].contentWindow;
-                        w.postMessage(newValue, scope.url);
+                        w.postMessage(scope.iframeCfg, scope.url);
                     });
                 },
                 restrict: 'E',
@@ -68,8 +68,8 @@
                     '<div class="av-block-outer">' +
                         '<div class="av-block-inner">' +
                             '<iframe ' +
-                                'class="av-block-iframe" iframe-cfg="iframeCfg" scrolling="no" frameborder="0"' +
-                                'src="{{url}}"></iframe>' +
+                                'class="av-block-iframe" scrolling="no" frameborder="0"' +
+                                'ng-attr-src="{{url}}"></iframe>' +
                         '</div>' +
                     '</div>'
             };

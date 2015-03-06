@@ -7,6 +7,8 @@
         .module('MainPage', [])
         .controller('MainController', [ '$scope', function ($scope) {
 
+            $scope.iframeUrl = 'http://localhost:8080/test4/index2.html';
+
             function setIframeWidth() {
                 var w = document.getElementById('video-block-outer').offsetWidth;
                 document.getElementById('video-block-iframe').width = w;
@@ -14,7 +16,7 @@
 
             function sendConfigToIframe() {
                 var w = document.getElementById('video-block-iframe').contentWindow;
-                w.postMessage($scope.iframeCfg, 'http://localhost:63342/msg-iframe-ng/index2_nodir.html');
+                w.postMessage($scope.iframeCfg, 'http://localhost:8080/test4/index2_nodir.html');
             }
 
             $scope.clickConfig = function () {
