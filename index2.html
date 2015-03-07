@@ -29,7 +29,7 @@
         }
     </style>
 </head>
-<body onresize="sendDim()">
+<body onresize="captureResize()">
     <div id="audio-video-block" class="audio-video-block">
         <p>This content is another page loaded via an iFrame.</p>
         <div id="video-block" class="video-block">
@@ -39,8 +39,12 @@
             <p>This is the audio block.</p>
         </div>
     </div>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script>
+        var prevWidth, prevHeight;
+
         function listener(event){
+            console.log('message captured');
             switch (event.data.blocks) {
                 case 'both':
                     document.getElementById('video-block').style.display = "block";
@@ -51,7 +55,6 @@
                     document.getElementById('audio-block').style.display = "block";
                     break;
             }
-
             sendDim();
         }
 
@@ -62,14 +65,29 @@
         }
 
         function sendDim() {
+            var w = document.getElementById('audio-video-block').offsetWidth + 8
             var h = document.getElementById('audio-video-block').offsetHeight + 8;
-            parent.postMessage({
-                width: document.getElementById('audio-video-block').offsetWidth + 8,
-                height: h // document.getElementById('audio-video-block').offsetHeight + 8
-                },
-                'http://localhost:8080/test4/index.html');
+
+            if (w !== prevWidth || h !== prevHeight) {
+                prevWidth = w;
+                prevHeight = h;
+
+                console.log('sending dim');
+
+                parent.postMessage({
+                        url: location.href,
+                        width: w,
+                        height: h
+                    },
+                    'http://localhost:8080/test4/index.html');
+            }
         }
 
-        sendDim(); // send the initial setting...
+        function captureResize() {
+            console.log('resized');
+            sendDim();
+        }
+        sendDim();
+
     </script>
 </body>

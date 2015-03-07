@@ -5,7 +5,7 @@
     /*global angular, $, console */
     angular
         .module('AudioVideoFrame', [])
-        .directive('audioVideoFrame', [function () {
+        .directive('audioVideoFrame', [ '$timeout', function ($timeout) {
 
             var idCnt = 0;
 
@@ -15,32 +15,23 @@
                 return l.host;
             }
 
-            $(window).on('message', function (e) {
-                /*
-                if (srcHost !== getHost(e.originalEvent.origin)) {
-                    console.log('mismatch: host = ' + srcHost + ', getHost = ' + getHost(e.originalEvent.origin));
-                    return;
-                }
-
-                console.log('message received');
-                angular.element($('*[ng-app]')).scope().$broadcast('msg', e.originalEvent.data);
-                */
-            });
-
             return {
                 link: function (scope, elem, attrs) {
                     scope.id = ++idCnt;
-                    scope.srcHost = getHost(scope.url);
 
                     (function (scope) {
                         var myScope = scope;
 
                         function setIframeWidth() {
-                            var w = $('#av-block-outer-' + myScope.id).offsetWidth;
+                            var w = $('#av-block-outer-' + myScope.id)[0].offsetWidth;
+                            console.log('iframe #' + myScope.id + ': setIframeWidth ' + w);
                             $('#av-block-iframe-' + myScope.id).attr('width', w);
                         }
 
-                        setIframeWidth();
+                        $timeout(function () {
+                            setIframeWidth();
+                        });
+
                         // FFS: resize.doResize won't work
                         $(window).resize('resize.doResize', function () {
                             setIframeWidth();
@@ -51,6 +42,7 @@
                         });
 
                         function setIframeDim(args) {
+                            console.log('iframe #' + myScope.id + ': set dimensions');
                             // '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
                             $('#av-block-inner-' + myScope.id).css('width', (args.width + 8) + 'px');
                             $('#av-block-inner-' + myScope.id).css('height', (args.height + 4 + 8) + 'px');
@@ -58,11 +50,12 @@
                         }
 
                         $(window).on('message', function (e) {
-                            console.log('message captured: ');
-                            console.log(e.originalEvent.data);
-                            if (myScope.srcHost !== getHost(e.originalEvent.origin)) {
-                                console.log('Iframe ' + myScope.id + ' skips message for ' + e.originalEvent.origin);
+                            if (myScope.url !== e.originalEvent.data.url) {
+                                console.log('iframe #' + myScope.id + ': skip message for ' + e.originalEvent.data.url);
                                 return;
+                            } else {
+                                console.log('message captured: ');
+                                console.log(e.originalEvent.data);
                             }
                             setIframeDim(e.originalEvent.data);
                         });
