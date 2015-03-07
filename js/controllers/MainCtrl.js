@@ -16,7 +16,7 @@
                 l = document.createElement("a");
                 l.href = $location.absUrl();
                 baseUrl = $location.absUrl().replace(l.hash, '');
-                $scope.iframeUrl = baseUrl + 'index2.html';
-                $scope.iframeUrl2 = baseUrl + 'index3.html';
+                $scope.iframeUrl = baseUrl + 'iframe_1.html';
+                $scope.iframeUrl2 = baseUrl + 'iframe_2.html';
             }]);
 }());

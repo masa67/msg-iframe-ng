@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Case X-XX</title>
+    <title>Iframe Page #2</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -15,7 +15,7 @@
             max-width: 100%;
             overflow: hidden;
             padding: 2px;
-            width: 300px;
+            width: 400px;
         }
 
         .video-block {
@@ -29,15 +29,15 @@
         }
     </style>
 </head>
-<body ng-app="demoApp"> <!-- onresize="captureResize()">-->
+<body ng-app="demoApp">
     <div ng-controller="mainCtrl">
         <div id="audio-video-block" class="audio-video-block">
-            <p>This content is another page loaded via an iFrame.</p>
-            <div ng-show="showVideo" id="video-block" class="video-block">
-                <p>This is the video block for Source #1.</p>
+            <p>Yet another page loaded via an iFrame.</p>
+            <div id="video-block" class="video-block">
+                <p>This is the video block for Source #2.</p>
             </div>
             <div id="audio-block" class="audio-block">
-                <p>This is the audio block for Source #1.</p>
+                <p>This is the audio block  for Source #2.</p>
             </div>
         </div>
     </div>
@@ -46,23 +46,23 @@
     <script src="js/factories/AudioVideoFrameChild.js"></script>
     <script>
         angular
-            .module('demoApp', ['AudioVideoFrameChild'])
-            .controller('mainCtrl', ['$scope', 'audioVideoFrameChild',
-                function($scope, audioVideoFrameChild) {
+                .module('demoApp', ['AudioVideoFrameChild'])
+                .controller('mainCtrl', ['$scope', 'audioVideoFrameChild',
+                    function($scope, audioVideoFrameChild) {
 
-                    $scope.showVideo = audioVideoFrameChild.regShowVideoCallback(function (val) {
-                        $scope.showVideo = val;
-                        $scope.$apply();
-                    });
+                        $scope.showVideo = audioVideoFrameChild.regShowVideoCallback(function (val) {
+                            $scope.showVideo = val;
+                            $scope.$apply();
+                        });
 
-                    audioVideoFrameChild.getDim = function() {
-                        return {
-                            w: $('#audio-video-block').outerWidth(),
-                            h: $('#audio-video-block').outerHeight()
+                        audioVideoFrameChild.getDim = function() {
+                            return {
+                                w: $('#audio-video-block').outerWidth(),
+                                h: $('#audio-video-block').outerHeight()
+                            };
                         };
-                    };
 
-                    audioVideoFrameChild.sendDim();
-            }]);
+                        audioVideoFrameChild.sendDim();
+                    }]);
     </script>
 </body>
