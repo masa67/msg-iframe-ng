@@ -23,20 +23,16 @@
         <style>
             .av-block-inner {
                 border: 2px solid #888;
-                margin: 20px auto;
+                margin-bottom: 20px;
+                margin-top: 20px;
                 overflow: hidden;
                 padding: 4px;
             }
-            .video-block-inner {
-                border: 2px solid #888;
-                margin: 20px auto;
-                overflow: hidden;
-                padding: 4px;
+            .av-block-1 .av-block-inner {
+                margin-left: auto;
+                margin-right: auto;
             }
             .av-block-iframe {
-                overflow: hidden;
-            }
-            .video-block-iframe {
                 overflow: hidden;
             }
         </style>
@@ -45,11 +41,11 @@
     <div class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
-            <audio-video-frame url="iframeUrl" iframe-cfg="iframeCfg"></audio-video-frame>
+            <audio-video-frame class="av-block-1" url="iframeUrl" iframe-cfg="iframeCfg"></audio-video-frame>
         </div>
         <div class="col-xs-2"></div>
     </div>
     <div>
-        <audio-video-frame url="iframeUrl2" iframe-cfg="iframeCfg"></audio-video-frame>
+        <audio-video-frame class="av-block-2" url="iframeUrl2" iframe-cfg="iframeCfg"></audio-video-frame>
     </div>
 </div>

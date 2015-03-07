@@ -19,48 +19,56 @@
                     console.log('mismatch: host = ' + srcHost + ', getHost = ' + getHost(e.originalEvent.origin));
                     return;
                 }
-                */
+
+                console.log('message received');
                 angular.element($('*[ng-app]')).scope().$broadcast('msg', e.originalEvent.data);
+                */
             });
 
             return {
                 link: function (scope, elem, attrs) {
-                    if (scope.srcHost !== undefined) {
-                        throw new Error('srcHost overwritten');
-                    }
                     scope.srcHost = getHost(scope.url);
 
-                    function setIframeWidth() {
-                        var w = elem.find('.av-block-outer')[0].offsetWidth;
-                        elem.find('.av-block-iframe').attr('width', w);
-                    }
+                    (function (scope, elem) {
+                        var myScope = scope;
+                        var myElem = elem;
 
-                    setIframeWidth();
-                    $(window).resize('resize.doResize', function () {
-                        setIframeWidth();
-                    });
-
-                    scope.$on('$destroy', function () {
-                        $(window).off('resize.doResize');
-                    });
-
-                    scope.$on('msg', function (event, args) {
-                        if (args.source !== 'directive') {
-                            return;
+                        function setIframeWidth() {
+                            var w = myElem.find('.av-block-outer')[0].offsetWidth;
+                            myElem.find('.av-block-iframe').attr('width', w);
                         }
 
-                        // '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
-                        elem.find('.av-block-inner').css('width', (args.width + 8) + 'px');
-                        elem.find('.av-block-inner').css('height', (args.height + 4 + 8) + 'px');
-                        elem.find('.av-block-iframe').attr('height', args.height);
-                    });
+                        setIframeWidth();
+                        $(window).resize('resize.doResize', function () {
+                            setIframeWidth();
+                        });
 
-                    scope.$watch(function () {
-                        return scope.iframeCfg.blocks;
-                    }, function () {
-                        var w = elem.find('.av-block-iframe')[0].contentWindow;
-                        w.postMessage(scope.iframeCfg, scope.url);
-                    });
+                        scope.$on('$destroy', function () {
+                            $(window).off('resize.doResize');
+                        });
+
+                        function setIframeDim(args) {
+                            // '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
+                            myElem.find('.av-block-inner').css('width', (args.width + 8) + 'px');
+                            myElem.find('.av-block-inner').css('height', (args.height + 4 + 8) + 'px');
+                            myElem.find('.av-block-iframe').attr('height', args.height);
+                        }
+
+                        $(window).on('message', function (e) {
+                            if (myScope.srcHost !== getHost(e.originalEvent.origin)) {
+                                return;
+                            }
+                            setIframeDim(e.originalEvent.data);
+                        });
+
+                        scope.$watch(function () {
+                            return scope.iframeCfg.blocks;
+                        }, function () {
+                            var w = myElem.find('.av-block-iframe')[0].contentWindow;
+                            w.postMessage(myScope.iframeCfg, myScope.url);
+                        });
+
+                    }(scope, elem));
                 },
                 restrict: 'E',
                 scope: {
