@@ -43,7 +43,7 @@
         var prevWidth, prevHeight;
 
         function listener(event){
-            console.log('message captured');
+            // console.log('message captured');
             switch (event.data.blocks) {
                 case 'both':
                     document.getElementById('video-block').style.display = "block";
@@ -72,7 +72,7 @@
                 prevWidth = w;
                 prevHeight = h;
 
-                console.log('sending dim');
+                // console.log('sending dim');
 
                 parent.postMessage({
                         url: location.href,
@@ -84,7 +84,7 @@
         }
 
         function captureResize() {
-            console.log('resized');
+            // console.log('resized');
             sendDim();
         }
 

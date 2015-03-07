@@ -24,7 +24,7 @@
 
                         function setIframeWidth() {
                             var w = $('#av-block-outer-' + myScope.id)[0].offsetWidth;
-                            console.log('iframe #' + myScope.id + ': setIframeWidth ' + w);
+                            // console.log('iframe #' + myScope.id + ': setIframeWidth ' + w);
                             $('#av-block-iframe-' + myScope.id).attr('width', w);
                         }
 
@@ -42,8 +42,8 @@
                         });
 
                         function setIframeDim(args) {
-                            console.log('iframe #' + myScope.id + ': set dimensions');
-                            // '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
+                            // console.log('iframe #' + myScope.id + ': set dimensions');
+                            // FFS: '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
                             $('#av-block-inner-' + myScope.id).css('width', (args.width + 8) + 'px');
                             $('#av-block-inner-' + myScope.id).css('height', (args.height + 4 + 8) + 'px');
                             $('#av-block-iframe-' + myScope.id).attr('height', args.height);
@@ -51,13 +51,12 @@
 
                         $(window).on('message', function (e) {
                             if (myScope.url !== e.originalEvent.data.url) {
-                                console.log('iframe #' + myScope.id + ': skip message for ' + e.originalEvent.data.url);
-                                return;
+                                // console.log('iframe #' + myScope.id + ': skip message for ' + e.originalEvent.data.url);
                             } else {
-                                console.log('message captured: ');
-                                console.log(e.originalEvent.data);
+                                // console.log('message captured: ');
+                                // console.log(e.originalEvent.data);
+                                setIframeDim(e.originalEvent.data);
                             }
-                            setIframeDim(e.originalEvent.data);
                         });
 
                         scope.$watch(function () {
