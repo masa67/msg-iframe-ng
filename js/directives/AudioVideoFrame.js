@@ -43,9 +43,10 @@
 
                         function setIframeDim(args) {
                             // console.log('iframe #' + myScope.id + ': set dimensions');
-                            // FFS: '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
-                            $('#av-block-inner-' + myScope.id).css('width', (args.width + 8) + 'px');
-                            $('#av-block-inner-' + myScope.id).css('height', (args.height + 4 + 8) + 'px');
+
+                            var elInner = $('#av-block-inner-' + myScope.id);
+                            elInner.width(args.width);
+                            elInner.height(args.height);
                             $('#av-block-iframe-' + myScope.id).attr('height', args.height);
                         }
 
