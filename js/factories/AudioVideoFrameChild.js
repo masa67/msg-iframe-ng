@@ -5,13 +5,13 @@
     /*global angular, $ */
     angular
         .module('AudioVideoFrameChild', [])
-        .factory('audioVideoFrameChild', function () {
+        .factory('audioVideoFrameChild', [ '$timeout', function ($timeout) {
+
 
             var prevWidth,
                 prevHeight,
-                url,
+                showVideoCallback,
                 factory = {
-                    showVideo: true,
                     getDim: undefined,
                     sendDim: function () {
                         var dim = this.getDim && this.getDim();
@@ -21,16 +21,20 @@
                                 prevWidth = dim.w;
                                 prevHeight = dim.h;
 
-                                url = parent.location;
                                 parent.postMessage({
                                     url: location.href,
                                     width: dim.w,
                                     height: dim.h
                                 },
-                                    url);
+                                    parent.location);
                             }
                         }
+                    },
+                    regShowVideoCallback: function (callback) {
+                        showVideoCallback = callback;
+                        return true;
                     }
+
                 };
 
             function getHost(url) {
@@ -41,18 +45,23 @@
 
             $(window).on('message', function (e) {
                 if (getHost(window.location.href) === getHost(e.originalEvent.origin)) {
-                    url = e.originalEvent.data.url;
+
                     switch (e.originalEvent.data.blocks) {
                     case 'both':
-                        factory.showVideo = true;
+                        if (showVideoCallback) {
+                            showVideoCallback(true);
+                        }
                         break;
                     case 'audio-only':
-                        factory.showVideo = false;
+                        if (showVideoCallback) {
+                            showVideoCallback(false);
+                        }
                         break;
                     }
-                    $timeout(function() {
+
+                    $timeout(function () {
                         factory.sendDim();
-                    })
+                    });
 
                 }
             });
@@ -62,5 +71,5 @@
             });
 
             return factory;
-        });
+        }]);
 }());

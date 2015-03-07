@@ -50,7 +50,10 @@
             .controller('mainCtrl', ['$scope', 'audioVideoFrameChild',
                 function($scope, audioVideoFrameChild) {
 
-                    $scope.showVideo = audioVideoFrameChild.showVideo;
+                    $scope.showVideo = audioVideoFrameChild.regShowVideoCallback(function (val) {
+                        $scope.showVideo = val;
+                        $scope.$apply();
+                    });
 
                     audioVideoFrameChild.getDim = function() {
                         return {
@@ -59,65 +62,7 @@
                         };
                     };
 
-                    $scope.$watch(function() {
-                        return audioVideoFrameChild.showVideo
-                    }, function(newValue) {
-                        $scope.showVideo = newValue;
-                    });
-
                     audioVideoFrameChild.sendDim();
             }]);
     </script>
-    <!--
-    <script>
-        var prevWidth, prevHeight;
-
-        function listener(event){
-            // console.log('message captured');
-            switch (event.data.blocks) {
-                case 'both':
-                    document.getElementById('video-block').style.display = "block";
-                    document.getElementById('audio-block').style.display = "block";
-                    break;
-                case 'audio-only':
-                    document.getElementById('video-block').style.display = "none";
-                    document.getElementById('audio-block').style.display = "block";
-                    break;
-            }
-            sendDim();
-        }
-
-        if (window.addEventListener){
-            addEventListener("message", listener, false)
-        } else {
-            attachEvent("onmessage", listener)
-        }
-
-        function sendDim() {
-            var w = $('#audio-video-block').outerWidth();
-            var h = $('#audio-video-block').outerHeight();
-
-            if (w !== prevWidth || h !== prevHeight) {
-                prevWidth = w;
-                prevHeight = h;
-
-                // console.log('sending dim');
-
-                parent.postMessage({
-                        url: location.href,
-                        width: w,
-                        height: h
-                    },
-                    'http://localhost:8080/test4/index.html');
-            }
-        }
-
-        function captureResize() {
-            // console.log('resized');
-            sendDim();
-        }
-        sendDim();
-
-    </script>
-    -->
 </body>
