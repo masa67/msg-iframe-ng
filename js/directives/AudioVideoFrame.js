@@ -7,6 +7,8 @@
         .module('AudioVideoFrame', [])
         .directive('audioVideoFrame', [function () {
 
+            var idCnt = 0;
+
             function getHost(href) {
                 var l = document.createElement("a");
                 l.href = href;
@@ -27,18 +29,19 @@
 
             return {
                 link: function (scope, elem, attrs) {
+                    scope.id = ++idCnt;
                     scope.srcHost = getHost(scope.url);
 
-                    (function (scope, elem) {
+                    (function (scope) {
                         var myScope = scope;
-                        var myElem = elem;
 
                         function setIframeWidth() {
-                            var w = myElem.find('.av-block-outer')[0].offsetWidth;
-                            myElem.find('.av-block-iframe').attr('width', w);
+                            var w = $('#av-block-outer-' + myScope.id).offsetWidth;
+                            $('#av-block-iframe-' + myScope.id).attr('width', w);
                         }
 
                         setIframeWidth();
+                        // FFS: resize.doResize won't work
                         $(window).resize('resize.doResize', function () {
                             setIframeWidth();
                         });
@@ -49,13 +52,16 @@
 
                         function setIframeDim(args) {
                             // '8' below is due to padding added on this page (i.e., not a miscalculation in the iframe).
-                            myElem.find('.av-block-inner').css('width', (args.width + 8) + 'px');
-                            myElem.find('.av-block-inner').css('height', (args.height + 4 + 8) + 'px');
-                            myElem.find('.av-block-iframe').attr('height', args.height);
+                            $('#av-block-inner-' + myScope.id).css('width', (args.width + 8) + 'px');
+                            $('#av-block-inner-' + myScope.id).css('height', (args.height + 4 + 8) + 'px');
+                            $('#av-block-iframe-' + myScope.id).attr('height', args.height);
                         }
 
                         $(window).on('message', function (e) {
+                            console.log('message captured: ');
+                            console.log(e.originalEvent.data);
                             if (myScope.srcHost !== getHost(e.originalEvent.origin)) {
+                                console.log('Iframe ' + myScope.id + ' skips message for ' + e.originalEvent.origin);
                                 return;
                             }
                             setIframeDim(e.originalEvent.data);
@@ -64,11 +70,11 @@
                         scope.$watch(function () {
                             return scope.iframeCfg.blocks;
                         }, function () {
-                            var w = myElem.find('.av-block-iframe')[0].contentWindow;
+                            var w = $('#av-block-iframe-' + myScope.id)[0].contentWindow;
                             w.postMessage(myScope.iframeCfg, myScope.url);
                         });
 
-                    }(scope, elem));
+                    }(scope));
                 },
                 restrict: 'E',
                 scope: {
@@ -76,9 +82,10 @@
                     url: '='
                 },
                 template:
-                    '<div class="av-block-outer">' +
-                        '<div class="av-block-inner">' +
+                    '<div ng-attr-id="av-block-outer-{{id}}" class="av-block-outer">' +
+                        '<div ng-attr-id="av-block-inner-{{id}}" class="av-block-inner">' +
                             '<iframe ' +
+                                'ng-attr-id="av-block-iframe-{{id}}" ' +
                                 'class="av-block-iframe" scrolling="no" frameborder="0"' +
                                 'ng-attr-src="{{url}}"></iframe>' +
                         '</div>' +
