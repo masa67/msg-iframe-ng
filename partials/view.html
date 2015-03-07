@@ -7,13 +7,14 @@
             <div class="radio">
                 <label>
                     <input type="radio" name="sources" value="both" ng-model="iframeCfg.blocks" ng-change="clickConfig()">
-                    Both Audio And Video
+                    Display both blocks
                 </label>
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="sources" value="audio-only" ng-model="iframeCfg.blocks" ng-change="clickConfig()">
-                    Audio only
+                    <input type="radio" name="sources" value="audio-only" ng-model="iframeCfg.blocks"
+                           ng-change="clickConfig()">
+                    Display audio only
                 </label>
             </div>
         </div>
@@ -47,5 +48,8 @@
             <audio-video-frame url="iframeUrl" iframe-cfg="iframeCfg"></audio-video-frame>
         </div>
         <div class="col-xs-2"></div>
+    </div>
+    <div>
+        <audio-video-frame url="iframeUrl2" iframe-cfg="iframeCfg"></audio-video-frame>
     </div>
 </div>
