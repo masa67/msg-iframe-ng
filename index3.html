@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
-            margin: 2px;
+            margin: 0;
         }
         .audio-video-block {
             border: 1px solid orange;
@@ -39,6 +39,7 @@
             <p>This is the audio block  for Source #2.</p>
         </div>
     </div>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script>
         var prevWidth, prevHeight;
 
@@ -65,8 +66,8 @@
         }
 
         function sendDim() {
-            var w = document.getElementById('audio-video-block').offsetWidth + 4
-            var h = document.getElementById('audio-video-block').offsetHeight + 4;
+            var w = $('#audio-video-block').outerWidth();
+            var h = $('#audio-video-block').outerHeight();
 
             if (w !== prevWidth || h !== prevHeight) {
                 prevWidth = w;

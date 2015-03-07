@@ -2,29 +2,24 @@
 (function () {
     'use strict';
 
-    /*global angular, $, console */
+    /*global angular, $ */
     angular
         .module('AudioVideoFrame', [])
         .directive('audioVideoFrame', [ '$timeout', function ($timeout) {
 
             var idCnt = 0;
 
-            function getHost(href) {
-                var l = document.createElement("a");
-                l.href = href;
-                return l.host;
-            }
-
             return {
                 link: function (scope, elem, attrs) {
-                    scope.id = ++idCnt;
+                    idCnt += 1;
+                    scope.id = idCnt;
+                    scope.hidden = true;
 
                     (function (scope) {
                         var myScope = scope;
 
                         function setIframeWidth() {
                             var w = $('#av-block-outer-' + myScope.id)[0].offsetWidth;
-                            // console.log('iframe #' + myScope.id + ': setIframeWidth ' + w);
                             $('#av-block-iframe-' + myScope.id).attr('width', w);
                         }
 
@@ -42,20 +37,19 @@
                         });
 
                         function setIframeDim(args) {
-                            // console.log('iframe #' + myScope.id + ': set dimensions');
-
                             var elInner = $('#av-block-inner-' + myScope.id);
                             elInner.width(args.width);
                             elInner.height(args.height);
                             $('#av-block-iframe-' + myScope.id).attr('height', args.height);
+
+                            if (scope.hidden) {
+                                scope.hidden = false;
+                                $('#av-block-outer-' + myScope.id).css('visibility', 'visible');
+                            }
                         }
 
                         $(window).on('message', function (e) {
-                            if (myScope.url !== e.originalEvent.data.url) {
-                                // console.log('iframe #' + myScope.id + ': skip message for ' + e.originalEvent.data.url);
-                            } else {
-                                // console.log('message captured: ');
-                                // console.log(e.originalEvent.data);
+                            if (myScope.url === e.originalEvent.data.url) {
                                 setIframeDim(e.originalEvent.data);
                             }
                         });
@@ -75,7 +69,7 @@
                     url: '='
                 },
                 template:
-                    '<div ng-attr-id="av-block-outer-{{id}}" class="av-block-outer">' +
+                    '<div ng-attr-id="av-block-outer-{{id}}" class="av-block-outer" style="visibility: hidden">' +
                         '<div ng-attr-id="av-block-inner-{{id}}" class="av-block-inner">' +
                             '<iframe ' +
                                 'ng-attr-id="av-block-iframe-{{id}}" ' +
