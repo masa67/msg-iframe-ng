@@ -4,5 +4,5 @@
 
     /*global angular */
     angular
-        .module('demoApp', ['ngRoute', 'appRoutes', 'MainPage', 'AudioVideoFrame']);
+        .module('demoApp', ['ngRoute', 'appRoutes', 'MainPage', 'AudioVideoFrameParent']);
 }());
