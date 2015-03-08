@@ -23,13 +23,8 @@
                             angular.element('#av-block-iframe-' + myScope.id).attr('width', w);
                         }
 
-                        $timeout(function () {
-                            setIframeWidth();
-                        });
-
-                        $(window).resize('resize.doResize', function () {
-                            setIframeWidth();
-                        });
+                        $timeout(setIframeWidth);
+                        $(window).resize('resize.doResize', setIframeWidth);
 
                         function setIframeDim(e) {
                             var args = e.originalEvent.data, elInner;
