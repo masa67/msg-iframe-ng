@@ -65,7 +65,7 @@
                 restrict: 'E',
                 scope: {
                     iframeCfg: '=',
-                    url: '='
+                    url: '@'
                 },
                 template:
                     '<div id="av-block-outer-{{id}}" class="av-block-outer" style="visibility: hidden">' +
