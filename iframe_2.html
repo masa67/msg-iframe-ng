@@ -33,7 +33,7 @@
     <div ng-controller="mainCtrl">
         <div id="audio-video-block" class="audio-video-block">
             <p>Yet another page loaded via an iFrame.</p>
-            <div id="video-block" class="video-block">
+            <div ng-show="showVideo" id="video-block" class="video-block">
                 <p>This is the video block for Source #2.</p>
             </div>
             <div id="audio-block" class="audio-block">
@@ -46,23 +46,23 @@
     <script src="js/factories/AudioVideoFrameChild.js"></script>
     <script>
         angular
-                .module('demoApp', ['AudioVideoFrameChild'])
-                .controller('mainCtrl', ['$scope', 'audioVideoFrameChild',
-                    function($scope, audioVideoFrameChild) {
+            .module('demoApp', ['AudioVideoFrameChild'])
+            .controller('mainCtrl', ['$scope', 'audioVideoFrameChild',
+                function($scope, audioVideoFrameChild) {
 
-                        $scope.showVideo = audioVideoFrameChild.regShowVideoCallback(function (val) {
-                            $scope.showVideo = val;
-                            $scope.$apply();
-                        });
+                    $scope.showVideo = audioVideoFrameChild.regShowVideoCallback(function (val) {
+                        $scope.showVideo = val;
+                        $scope.$apply();
+                    });
 
-                        audioVideoFrameChild.getDim = function() {
-                            return {
-                                w: $('#audio-video-block').outerWidth(),
-                                h: $('#audio-video-block').outerHeight()
-                            };
+                    audioVideoFrameChild.getDim = function() {
+                        return {
+                            w: $('#audio-video-block').outerWidth(),
+                            h: $('#audio-video-block').outerHeight()
                         };
+                    };
 
-                        audioVideoFrameChild.sendDim();
-                    }]);
+                    audioVideoFrameChild.sendDim();
+            }]);
     </script>
 </body>

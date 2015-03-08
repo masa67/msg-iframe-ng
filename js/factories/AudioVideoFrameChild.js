@@ -45,7 +45,6 @@
 
             $(window).on('message', function (e) {
                 if (getHost(window.location.href) === getHost(e.originalEvent.origin)) {
-
                     switch (e.originalEvent.data.blocks) {
                     case 'both':
                         if (showVideoCallback) {
