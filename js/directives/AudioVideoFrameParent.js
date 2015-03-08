@@ -19,8 +19,8 @@
                         var myScope = scope;
 
                         function setIframeWidth() {
-                            var w = $('#av-block-outer-' + myScope.id)[0].offsetWidth;
-                            $('#av-block-iframe-' + myScope.id).attr('width', w);
+                            var w = angular.element('#av-block-outer-' + myScope.id)[0].offsetWidth;
+                            angular.element('#av-block-iframe-' + myScope.id).attr('width', w);
                         }
 
                         $timeout(function () {
@@ -34,14 +34,14 @@
                         function setIframeDim(e) {
                             var args = e.originalEvent.data, elInner;
                             if (myScope.url === e.originalEvent.data.url) {
-                                elInner = $('#av-block-inner-' + myScope.id);
+                                elInner = angular.element('#av-block-inner-' + myScope.id);
                                 elInner.width(args.width);
                                 elInner.height(args.height);
-                                $('#av-block-iframe-' + myScope.id).attr('height', args.height);
+                                angular.element('#av-block-iframe-' + myScope.id).attr('height', args.height);
 
                                 if (scope.hidden) {
                                     scope.hidden = false;
-                                    $('#av-block-outer-' + myScope.id).css('visibility', 'visible');
+                                    angular.element('#av-block-outer-' + myScope.id).css('visibility', 'visible');
                                 }
                             }
                         }
@@ -51,7 +51,7 @@
                         scope.$watch(function () {
                             return scope.iframeCfg.blocks;
                         }, function () {
-                            var w = $('#av-block-iframe-' + myScope.id)[0].contentWindow;
+                            var w = angular.element('#av-block-iframe-' + myScope.id)[0].contentWindow;
                             w.postMessage(myScope.iframeCfg, myScope.url);
                         });
 
