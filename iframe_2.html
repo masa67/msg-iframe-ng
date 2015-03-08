@@ -50,12 +50,14 @@
             .controller('mainCtrl', ['$scope', 'audioVideoFrameChild',
                 function($scope, audioVideoFrameChild) {
 
-                    $scope.showVideo = audioVideoFrameChild.regShowVideoCallback(function (val) {
+                    $scope.showVideo = true;
+
+                    audioVideoFrameChild.setShowVideoCallback = function (val) {
                         $scope.showVideo = val;
                         $scope.$apply();
-                    });
+                    };
 
-                    audioVideoFrameChild.getDim = function() {
+                    audioVideoFrameChild.getDimCallback = function() {
                         return {
                             w: $('#audio-video-block').outerWidth(),
                             h: $('#audio-video-block').outerHeight()

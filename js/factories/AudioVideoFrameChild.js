@@ -10,11 +10,11 @@
 
             var prevWidth,
                 prevHeight,
-                showVideoCallback,
                 factory = {
-                    getDim: undefined,
+                    getDimCallback: undefined,
+                    setShowVideoCallback: undefined,
                     sendDim: function () {
-                        var dim = this.getDim && this.getDim();
+                        var dim = this.getDimCallback && this.getDimCallback();
 
                         if (dim) {
                             if (dim.w !== prevWidth || dim.h !== prevHeight) {
@@ -30,11 +30,6 @@
                             }
                         }
                     },
-                    regShowVideoCallback: function (callback) {
-                        showVideoCallback = callback;
-                        return true;
-                    }
-
                 };
 
             function getHost(url) {
@@ -45,27 +40,24 @@
 
             $(window).on('message', function (e) {
                 if (getHost(window.location.href) === getHost(e.originalEvent.origin)) {
-                    switch (e.originalEvent.data.blocks) {
-                    case 'both':
-                        if (showVideoCallback) {
+                    if (factory.setShowVideoCallback) {
+                        switch (e.originalEvent.data.blocks) {
+                        case 'both':
                             showVideoCallback(true);
-                        }
-                        break;
-                    case 'audio-only':
-                        if (showVideoCallback) {
+                            break;
+                        case 'audio-only':
                             showVideoCallback(false);
+                             break;
                         }
-                        break;
+
+                        $timeout(function () {
+                            factory.sendDim();
+                        });
                     }
-
-                    $timeout(function () {
-                        factory.sendDim();
-                    });
-
                 }
             });
 
-            $(window).resize('resize.doResize', function () {
+            $(window).on('resize', function () {
                 factory.sendDim();
             });
 
