@@ -31,23 +31,22 @@
                             setIframeWidth();
                         });
 
-                        function setIframeDim(args) {
-                            var elInner = $('#av-block-inner-' + myScope.id);
-                            elInner.width(args.width);
-                            elInner.height(args.height);
-                            $('#av-block-iframe-' + myScope.id).attr('height', args.height);
+                        function setIframeDim(e) {
+                            var args = e.originalEvent.data, elInner;
+                            if (myScope.url === e.originalEvent.data.url) {
+                                elInner = $('#av-block-inner-' + myScope.id);
+                                elInner.width(args.width);
+                                elInner.height(args.height);
+                                $('#av-block-iframe-' + myScope.id).attr('height', args.height);
 
-                            if (scope.hidden) {
-                                scope.hidden = false;
-                                $('#av-block-outer-' + myScope.id).css('visibility', 'visible');
+                                if (scope.hidden) {
+                                    scope.hidden = false;
+                                    $('#av-block-outer-' + myScope.id).css('visibility', 'visible');
+                                }
                             }
                         }
 
-                        $(window).on('message', function (e) {
-                            if (myScope.url === e.originalEvent.data.url) {
-                                setIframeDim(e.originalEvent.data);
-                            }
-                        });
+                        $(window).on('message', setIframeDim);
 
                         scope.$watch(function () {
                             return scope.iframeCfg.blocks;
@@ -58,6 +57,7 @@
 
                         scope.$on('$destroy', function () {
                             $(window).off('resize.doResize');
+                            $(window).off('message', setIframeDim);
                         });
 
                     }(scope));
