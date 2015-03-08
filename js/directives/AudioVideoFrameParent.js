@@ -68,12 +68,12 @@
                     url: '='
                 },
                 template:
-                    '<div ng-attr-id="av-block-outer-{{id}}" class="av-block-outer" style="visibility: hidden">' +
-                        '<div ng-attr-id="av-block-inner-{{id}}" class="av-block-inner">' +
+                    '<div id="av-block-outer-{{id}}" class="av-block-outer" style="visibility: hidden">' +
+                        '<div id="av-block-inner-{{id}}" class="av-block-inner">' +
                             '<iframe ' +
-                                'ng-attr-id="av-block-iframe-{{id}}" ' +
+                                'id="av-block-iframe-{{id}}" ' +
                                 'class="av-block-iframe" scrolling="no" frameborder="0"' +
-                                'ng-attr-src="{{url}}"></iframe>' +
+                                'src="{{url}}"></iframe>' +
                         '</div>' +
                     '</div>'
             };
