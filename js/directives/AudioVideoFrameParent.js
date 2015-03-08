@@ -24,7 +24,7 @@
                         }
 
                         $timeout(setIframeWidth);
-                        $(window).resize('resize.doResize', setIframeWidth);
+                        $(window).on('resize', setIframeWidth);
 
                         function setIframeDim(e) {
                             var args = e.originalEvent.data, elInner;
@@ -43,15 +43,14 @@
 
                         $(window).on('message', setIframeDim);
 
-                        scope.$watch(function () {
-                            return scope.iframeCfg.blocks;
-                        }, function () {
-                            var w = angular.element('#av-block-iframe-' + myScope.id)[0].contentWindow;
-                            w.postMessage(myScope.iframeCfg, myScope.url);
-                        });
+                        scope.$watch('iframeCfg.blocks',
+                            function () {
+                                var w = angular.element('#av-block-iframe-' + myScope.id)[0].contentWindow;
+                                w.postMessage(myScope.iframeCfg, myScope.url);
+                            });
 
                         scope.$on('$destroy', function () {
-                            $(window).off('resize.doResize');
+                            $(window).off('resize', setIframeWidth);
                             $(window).off('message', setIframeDim);
                         });
 
