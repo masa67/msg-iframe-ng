@@ -43,11 +43,11 @@
                     if (factory.setShowVideoCallback) {
                         switch (e.originalEvent.data.blocks) {
                         case 'both':
-                            showVideoCallback(true);
+                            factory.setShowVideoCallback(true);
                             break;
                         case 'audio-only':
-                            showVideoCallback(false);
-                             break;
+                            factory.setShowVideoCallback(false);
+                            break;
                         }
 
                         $timeout(function () {
