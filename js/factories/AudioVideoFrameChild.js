@@ -27,7 +27,7 @@
                                     width: dim.w,
                                     height: dim.h
                                 },
-                                    parent.location);
+                                    '*');
                             }
                         }
                     },
@@ -38,7 +38,7 @@
                             audio: audioPerm,
                             video: videoPerm
                         },
-                            parent.location);
+                            '*');
                     }
                 };
 

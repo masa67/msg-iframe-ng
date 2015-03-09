@@ -56,7 +56,7 @@
                         scope.$watch('iframeCfg.blocks',
                             function () {
                                 var w = angular.element('#av-block-iframe-' + myScope.id)[0].contentWindow;
-                                w.postMessage(myScope.iframeCfg, myScope.url);
+                                w.postMessage(myScope.iframeCfg, '*');
                             });
 
                         scope.$on('$destroy', function () {
