@@ -5,7 +5,7 @@
     /*global angular, $ */
     angular
         .module('AudioVideoFrameParent', [])
-        .directive('audioVideoFrame', [ '$timeout', function ($timeout) {
+        .directive('audioVideoFrame', [ '$timeout', '$sce', function ($timeout, $sce) {
 
             var idCnt = 0;
 
@@ -14,6 +14,7 @@
                     idCnt += 1;
                     scope.id = idCnt;
                     scope.hidden = true;
+                    scope.url = $sce.getTrustedResourceUrl(scope.trustedUrl);
 
                     (function (scope) {
                         var myScope = scope;
@@ -59,7 +60,7 @@
                 restrict: 'E',
                 scope: {
                     iframeCfg: '=',
-                    url: '@'
+                    trustedUrl: '='
                 },
                 template:
                     '<div id="av-block-outer-{{id}}" class="av-block-outer" style="visibility: hidden">' +
