@@ -51,6 +51,8 @@
                 function($scope, audioVideoFrameChild) {
 
                     $scope.showVideo = true;
+                    $scope.audioPerm = true;
+                    $scope.videoPerm = true;
 
                     audioVideoFrameChild.setShowVideoCallback = function (val) {
                         $scope.showVideo = val;
@@ -65,6 +67,7 @@
                     };
 
                     audioVideoFrameChild.sendDim();
+                    audioVideoFrameChild.sendPerm($scope.audioPerm, $scope.videoPerm);
             }]);
     </script>
 </body>

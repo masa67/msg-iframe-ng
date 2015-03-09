@@ -23,6 +23,7 @@
 
                                 parent.postMessage({
                                     url: location.href,
+                                    type: 'dimensions',
                                     width: dim.w,
                                     height: dim.h
                                 },
@@ -30,6 +31,15 @@
                             }
                         }
                     },
+                    sendPerm: function (audioPerm, videoPerm) {
+                        parent.postMessage({
+                            url: location.href,
+                            type: 'permissions',
+                            audio: audioPerm,
+                            video: videoPerm
+                        },
+                            parent.location);
+                    }
                 };
 
             function getHost(url) {

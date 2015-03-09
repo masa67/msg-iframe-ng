@@ -17,16 +17,32 @@
                     Display audio only
                 </label>
             </div>
+            <div>
+                <div>Source #1 permissions:</div>
+                <div>audio: {{frame1Perm.audio}}</div>
+                <div>video: {{frame1Perm.video}}</div>
+            </div>
+            <div>
+                <div>Source #2 permissions:</div>
+                <div>audio: {{frame2Perm.audio}}</div>
+                <div>video: {{frame2Perm.video}}</div>
+            </div>
         </div>
     </form>
     <div class="row">
         <div class="col-xs-2"></div>
         <div class="col-xs-8">
-            <audio-video-frame class="av-block-1" trusted-url="iframeUrl" iframe-cfg="iframeCfg"></audio-video-frame>
+            <audio-video-frame class="av-block-1"
+                               trusted-url="frame1Url"
+                               perm="frame1Perm"
+                               iframe-cfg="iframeCfg"></audio-video-frame>
         </div>
         <div class="col-xs-2"></div>
     </div>
     <div>
-        <audio-video-frame class="av-block-2" trusted-url="iframeUrl2" iframe-cfg="iframeCfg"></audio-video-frame>
+        <audio-video-frame class="av-block-2"
+                           trusted-url="frame2Url"
+                           perm="frame2Perm"
+                           iframe-cfg="iframeCfg"></audio-video-frame>
     </div>
 </div>

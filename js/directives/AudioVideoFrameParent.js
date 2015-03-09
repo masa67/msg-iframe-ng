@@ -29,15 +29,24 @@
 
                         function setIframeDim(e) {
                             var args = e.originalEvent.data, elInner;
-                            if (myScope.url === e.originalEvent.data.url) {
-                                elInner = angular.element('#av-block-inner-' + myScope.id);
-                                elInner.width(args.width);
-                                elInner.height(args.height);
-                                angular.element('#av-block-iframe-' + myScope.id).attr('height', args.height);
+                            if (myScope.url === args.url) {
+                                switch (args.type) {
+                                case 'dimensions':
+                                    elInner = angular.element('#av-block-inner-' + myScope.id);
+                                    elInner.width(args.width);
+                                    elInner.height(args.height);
+                                    angular.element('#av-block-iframe-' + myScope.id).attr('height', args.height);
 
-                                if (scope.hidden) {
-                                    scope.hidden = false;
-                                    angular.element('#av-block-outer-' + myScope.id).css('visibility', 'visible');
+                                    if (scope.hidden) {
+                                        scope.hidden = false;
+                                        angular.element('#av-block-outer-' + myScope.id).css('visibility', 'visible');
+                                    }
+                                    break;
+                                case 'permissions':
+                                    scope.perm.audio = args.audio;
+                                    scope.perm.video = args.video;
+                                    scope.$apply();
+                                    break;
                                 }
                             }
                         }
@@ -60,7 +69,8 @@
                 restrict: 'E',
                 scope: {
                     iframeCfg: '=',
-                    trustedUrl: '='
+                    trustedUrl: '=',
+                    perm: '='
                 },
                 template:
                     '<div id="av-block-outer-{{id}}" class="av-block-outer" style="visibility: hidden">' +
